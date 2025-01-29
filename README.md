@@ -26,12 +26,18 @@ This project is an extension of [Instant-NGP](https://github.com/NVlabs/instant-
 
 ## Table Of Contents
 
-- [Gallery](#gallery)
-- [Installation](#installation)
-- [Training](#training)
-- [Data](#data)
-- [Data Convention](#data-convention)
-- [Acknowledgements \& Citation](#acknowledgements--citation)
+- [NeuS2: Fast Learning of Neural Implicit Surfaces for Multi-view Reconstruction](#neus2-fast-learning-of-neural-implicit-surfaces-for-multi-view-reconstruction)
+		- [\[Project\] \[Paper\]](#project-paper)
+		- [Updates](#updates)
+	- [Table Of Contents](#table-of-contents)
+	- [Gallery](#gallery)
+	- [Installation](#installation)
+	- [Training](#training)
+		- [Static Scene](#static-scene)
+		- [Dynamic Scene](#dynamic-scene)
+	- [Data](#data)
+	- [Data Convention](#data-convention)
+	- [Acknowledgements \& Citation](#acknowledgements--citation)
 
 
 ## Gallery
@@ -47,26 +53,31 @@ This project is an extension of [Instant-NGP](https://github.com/NVlabs/instant-
 **Please first see [Instant-NGP](https://github.com/NVlabs/instant-ngp#building-instant-ngp-windows--linux) for original requirements and compilation instructions. NeuS2 follows the installing steps of Instant-NGP.**
 
 Clone this repository and all its submodules using the following command:
-```
+```bash
 git clone --recursive https://github.com/19reborn/NeuS2
 cd NeuS2
+sudo apt-get install -y build-essential git python3-dev python3-pip libopenexr-dev libxi-dev libglfw3-dev libglew-dev libomp-dev libxinerama-dev libxcursor-dev cmake
 ```
 
 Then use CMake to build the project:
 
-```
+```bash
 cmake . -B build
-cmake --build build --config RelWithDebInfo -j 
+cmake --build build --config RelWithDebInfo -j
 ```
 
 For python useage, first install dependencies with conda and pip:
-```
+```bash
 conda create -n neus2 python=3.9
 conda activate neus2
 pip install -r requirements.txt
 ```
 
-Then install [pytorch](https://pytorch.org/) and [pytorch3d](https://github.com/facebookresearch/pytorch3d).
+Then install [pytorch](https://pytorch.org/) and [pytorch3d](https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md).
+```bash
+conda install -c iopath iopath
+conda install pytorch3d -c pytorch3d
+```
 
 If you meet problems of compiling, you may find solutions [here](https://github.com/NVlabs/instant-ngp#troubleshooting-compile-errors).
 
@@ -96,6 +107,21 @@ python scripts/run_dynamic.py --scene ${data_path}/transform.json --name ${your_
 , where the number of training iterations is specified in the config.
 
 The outputs and logs of the experiment can be found at `output/${your_experiment_name}/`.
+
+
+<details>
+<summary>Example commands</summary>
+
+```bash
+./build/testbed --scene /data/dtu_scan24/transform.json
+```
+```bash
+python scripts/run.py --scene /data/dtu_scan24/transform.json --name dtu_scan24_static --network dtu.json --n_steps 1500
+```
+```bash
+python scripts/run_dynamic.py --scene /data/dtu_scan24/transform.json --name dtu_scan24_dynamic --network dtu.json
+```
+</details>
 
 ### Dynamic Scene
 
@@ -143,7 +169,7 @@ We also provide a data conversion from [NeuS](https://lingjie0206.github.io/pape
 
 ```bibtex
 @inproceedings{neus2,
-    title={NeuS2: Fast Learning of Neural Implicit Surfaces for Multi-view Reconstruction}, 
+    title={NeuS2: Fast Learning of Neural Implicit Surfaces for Multi-view Reconstruction},
     author={Wang, Yiming and Han, Qin and Habermann, Marc and Daniilidis, Kostas and Theobalt, Christian and Liu, Lingjie},
     year={2023},
     booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)}
